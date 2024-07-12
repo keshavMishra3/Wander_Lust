@@ -1,0 +1,133 @@
+<% layout("./layout/boilerPlate") -%>
+<body>
+  <style>
+    #filters {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .filter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 2rem;
+      opacity: 0.7;
+    }
+    .filter:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+    .filter p {
+      font-size: 0.8rem;
+    }
+    .tax-info {
+      display: none;
+    }
+    .tax-toggle {
+      border: 1px solid black;
+      border-radius: 1rem;
+      height: 3.5rem;
+      padding: 1rem;
+    }
+  </style>
+
+  <div id="filters">
+    <div class="filter" data-route="/listings/search/trending" id="trending-listing">
+      <div><i class="fa-solid fa-fire"></i></div>
+      <p>Trending</p>
+    </div>
+    <div class="filter" data-route="/listings/search/rooms">
+      <div><i class="fa-solid fa-bed"></i></div>
+      <p>Rooms</p>
+    </div>
+    <div class="filter" data-route="/listings/search/iconic-cities">
+      <div><i class="fa-solid fa-tree-city"></i></div>
+      <p>Iconic cities</p>
+    </div>
+    <div class="filter" data-route="/listings/search/mountains">
+      <div><i class="fa-solid fa-mountain-sun"></i></div>
+      <p>Mountains</p>
+    </div>
+    <div class="filter" data-route="/listings/search/castles">
+      <div><i class="fa-solid fa-chess-rook"></i></div>
+      <p>Castles</p>
+    </div>
+    <div class="filter" data-route="/listings/search/amazing-pools">
+      <div><i class="fa-solid fa-person-swimming"></i></div>
+      <p>Amazing pools</p>
+    </div>
+    <div class="filter" data-route="/listings/search/camping">
+      <div><i class="fa-solid fa-person-hiking"></i></div>
+      <p>Camping</p>
+    </div>
+    <div class="filter" data-route="/listings/search/farms">
+      <div><i class="fa-solid fa-tractor"></i></div>
+      <p>Farms</p>
+    </div>
+    <div class="filter" data-route="/listings/search/arctic">
+      <div><i class="fa-solid fa-snowflake"></i></div>
+      <p>Arctic</p>
+    </div>
+    <div class="tax-toggle">
+      <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Display total after taxes</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-cols-lg-3 mt-3 row-cols-md-2 row-cols-sm-1">
+    <% for(let list of allListings) { %>
+      <a href="/listings/<%= list._id %>" style="text-decoration: none;">
+        <div class="card listing-card col" style="margin:2rem">
+          <img src="<%= list.image.url %>" style="height:20rem;" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-text">
+              <b><%= list.title %></b>
+              <br>
+              &#8377; <span class="price" data-price="<%= list.price %>"><%= list.price.toLocaleString("en-IN") %></span>/night
+            </p>
+          </div>
+        </div>
+      </a>
+    <% } %>
+  </div>
+</body>
+
+<script>
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click", () => {
+    let prices = document.getElementsByClassName("price");
+    for (let priceElement of prices) {
+      let originalPrice = parseFloat(priceElement.getAttribute("data-price"));
+      if (taxSwitch.checked) {
+        let newPrice = originalPrice * 1.18;
+        priceElement.textContent = newPrice.toLocaleString("en-IN");
+      } else {
+        priceElement.textContent = originalPrice.toLocaleString("en-IN");
+      }
+    }
+  });
+
+  let filters = document.getElementsByClassName("filter");
+  for (let filter of filters) {
+    filter.addEventListener("click", () => {
+      let route = filter.getAttribute("data-route");
+      window.location.href = route;
+    });
+  }
+</script>
+
+
+    
+
+
+
+    <!-- <form method="GET" action="/listings/new">
+        <button>Create New Listing</button>
+    </form> -->
+  
+    
+
+
