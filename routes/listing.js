@@ -13,8 +13,8 @@ router.route("/")
   // Index route for showing all listing data
   .get(wrapAsync(listingController.index))
   // Create route for new listing
-  .post(isLoggedIn,upload.single("listing[image]"),validateListing,wrapAsync(listingController.createListing));
-  // show listing on the basis of search
+  .post(isLoggedIn,upload.single("image"),validateListing,wrapAsync(listingController.createListing));
+  // show listing on the basis of search upload.single("listing[image]")
   router.get("/search/location/:locationname",wrapAsync(listingController.searchListing))
   // show listing on based of filter
   router.get("/search/:filtername", wrapAsync(listingController.filterListing));
@@ -26,7 +26,7 @@ router.route("/:id")
   // Show route: showing all data of a particular listing
   .get(wrapAsync(listingController.showListing))
   // Update route
-  .put(isLoggedIn, isOwner,upload.single("listing[image]"),validateListing, wrapAsync(listingController.updateListing))
+  .put(isLoggedIn, isOwner,upload.single("image"),validateListing, wrapAsync(listingController.updateListing))
   // Destroy route
   .delete(isLoggedIn, isOwner, wrapAsync(listingController.deleteListing));
 
